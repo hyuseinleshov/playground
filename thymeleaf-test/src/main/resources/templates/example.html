@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="<http://www.thymeleaf.org>">
+<head>
+    <title>Example</title>
+</head>
+<body>
+<div th:if="${user}">
+    <p th:text="'Hello, ' + ${user.name} + '!'">Hello, User!</p>
+</div>
+<ul>
+    <li th:each="item : ${items}" th:text="${item}">Item</li>
+</ul>
+<form th:action="@{/submit}" method="post">
+    <input type="text" th:field="*{name}" />
+    <button type="submit">Submit</button>
+</form>
+</body>
+</html>

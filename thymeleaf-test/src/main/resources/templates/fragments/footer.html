@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Footer Fragment</title>
+</head>
+<body>
+<!-- Define the fragment -->
+<div th:fragment="footerFragment">
+    <footer>
+        <p>&copy; 2024 My Application. All rights reserved.</p>
+        <nav>
+            <ul>
+                <li><a th:href="@{/privacy}">Privacy Policy</a></li>
+                <li><a th:href="@{/terms}">Terms of Service</a></li>
+            </ul>
+        </nav>
+    </footer>
+</div>
+</body>
+</html>

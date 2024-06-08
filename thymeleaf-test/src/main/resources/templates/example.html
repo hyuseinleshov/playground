@@ -10,7 +10,7 @@
 <ul>
     <li th:each="item : ${items}" th:text="${item}">Item</li>
 </ul>
-<form th:action="@{/submit}" method="post">
+<form th:object="${userDto}" th:action="@{/}" th:method="post">
     <input type="text" th:field="*{name}" />
     <button type="submit">Submit</button>
 </form>

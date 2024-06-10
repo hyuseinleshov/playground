@@ -6,5 +6,7 @@ public class Main {
         System.out.println(calc.subtract(5, 3));
         System.out.println(calc.multiply(5, 3));
         System.out.println(calc.divide(5, 3));
+
+        System.out.println("test");
     }
 }

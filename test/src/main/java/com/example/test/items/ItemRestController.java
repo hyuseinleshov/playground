@@ -34,7 +34,7 @@ public class ItemRestController {
         }
 
         ItemEntity created = itemService.createItem(itemDto);
-        ItemDto response = new ItemDto(created.getName(), created.getDescription());
+        ItemResponseDto response = new ItemResponseDto(created.getName(), created.getDescription());
 
         return ResponseEntity.ok(response);
     }

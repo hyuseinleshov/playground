@@ -12,8 +12,11 @@ public class ItemService {
         this.itemRepository = itemRepository;
     }
 
-    public List<ItemEntity> getAllItems() {
-        return itemRepository.findAll();
+    public List<ItemDto> findAllItems() {
+        List<ItemEntity> items = itemRepository.findAll();
+        return items.stream()
+                .map(item -> new ItemDto(item.getName(), item.getDescription()))
+                .toList();
     }
 
     public ItemEntity createItem(CreateItemDto itemDto) {

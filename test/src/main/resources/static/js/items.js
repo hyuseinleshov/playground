@@ -2,25 +2,17 @@ $(document).ready(function() {
     $('#addItemForm').submit(function(event) {
         event.preventDefault();
         clearErrors();
+        disableSubmitButton(true);
         const formData = JSON.stringify(getFormData($(this)));
         addItem(formData);
     });
-
-    $('#displayItemsBtn').click(function() {
-        loadItems();
-    });
 });
-
-function clearErrors() {
-    $('#nameError').text('');
-    $('#descriptionError').text('');
-}
 
 function getFormData($form) {
     let unindexed_array = $form.serializeArray();
     let indexed_array = {};
 
-    $.map(unindexed_array, function(n, i) {
+    $.map(unindexed_array, function (n) {
         indexed_array[n['name']] = n['value'];
     });
 
@@ -33,15 +25,14 @@ function addItem(formData) {
         method: 'POST',
         data: formData,
         contentType: 'application/json',
-        success: function() {
+        success: function(response) {
             $('#addItemModal').modal('hide');
-            alert('Item added successfully');
-            loadItems();
+            appendItem(response);
         },
         error: function(jqXHR) {
+            disableSubmitButton(false);
             if (jqXHR.status === 400) {
-                let errors = jqXHR.responseJSON;
-                displayErrors(errors);
+                displayErrors(jqXHR.responseJSON);
             } else {
                 alert('Error adding item');
             }
@@ -49,20 +40,9 @@ function addItem(formData) {
     });
 }
 
-function loadItems() {
-    $.ajax({
-        url: '/api/items',
-        method: 'GET',
-        success: function(data) {
-            $('#itemList').empty();
-            data.forEach(function(item) {
-                $('#itemList').append('<p>' + item.name + ': ' + item.description + '</p>');
-            });
-        },
-        error: function() {
-            alert('Error loading items');
-        }
-    });
+function clearErrors() {
+    $('#nameError').text('');
+    $('#descriptionError').text('');
 }
 
 function displayErrors(errors) {
@@ -72,4 +52,15 @@ function displayErrors(errors) {
     if (errors.description) {
         $('#descriptionError').text(errors.description);
     }
+}
+
+function appendItem(item) {
+    let tbody = $('#itemsTableBody');
+    tbody.append('<tr><td>' + item.name + '</td>'
+        + '<td>' + item.description + '</td></tr>');
+    disableSubmitButton(false);
+}
+
+function disableSubmitButton(disable) {
+    $('#addItemForm button[type="submit"]').prop('disabled', disable);
 }

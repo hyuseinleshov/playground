@@ -5,10 +5,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -18,11 +20,6 @@ public class ItemRestController {
 
     public ItemRestController(ItemService itemService) {
         this.itemService = itemService;
-    }
-
-    @GetMapping
-    public List<ItemEntity> getAllItems() {
-        return itemService.getAllItems();
     }
 
     @PostMapping("/create")
@@ -36,7 +33,9 @@ public class ItemRestController {
             return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
         }
 
-        ItemEntity savedItem = itemService.createItem(itemDto);
-        return ResponseEntity.ok(savedItem);
+        ItemEntity created = itemService.createItem(itemDto);
+        ItemDto response = new ItemDto(created.getName(), created.getDescription());
+
+        return ResponseEntity.ok(response);
     }
 }

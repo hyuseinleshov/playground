@@ -31,7 +31,7 @@ public class UserServiceTest {
         when(userRepository.findById(userId)).thenReturn(Optional.of(expectedUser));
 
         // Act
-        User actualUser = userService.getUserById(userId);
+        User actualUser = userService.getById(userId);
 
         // Assert
         assertEquals(expectedUser, actualUser);
@@ -45,7 +45,7 @@ public class UserServiceTest {
         when(userRepository.findById(userId)).thenReturn(Optional.empty());
 
         // Act & Assert
-        assertThrows(RuntimeException.class, () -> userService.getUserById(userId));
+        assertThrows(RuntimeException.class, () -> userService.getById(userId));
         verify(userRepository, times(1)).findById(userId);
     }
 }

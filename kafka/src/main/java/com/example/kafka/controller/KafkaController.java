@@ -24,10 +24,10 @@ public class KafkaController {
     }
 
     @PostMapping("/greeting")
-    public ResponseEntity<String> publishGreeting(
+    public ResponseEntity<String> sendUser(
             @RequestBody Greeting greeting
     ) {
         kafkaProducerService.sendGreeting(greeting);
-        return ResponseEntity.ok("Greeting queued successfully");
+        return ResponseEntity.ok("Message queued successfully as JSON");
     }
 }
